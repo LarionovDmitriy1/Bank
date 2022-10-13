@@ -12,6 +12,7 @@ namespace Bank
         private string _name;
         private string _numberScore;
         private int _money;
+        private bool _isHave = false;
         public void GetNumber()
         {
             Console.WriteLine($"Ваш номер счёта - {_numberScore}");
@@ -19,7 +20,17 @@ namespace Bank
 
         public void DeleteNumber(Bank1 bank, Human hum)
         {
-            bank.CloseScore(hum, bank);
+            if (_isHave == true)
+            {
+                _isHave = false;
+                bank.CloseScore(hum, bank);
+            }
+            else
+            {
+                Console.WriteLine();
+                Console.WriteLine("У вас нет счёта в банке");
+                Console.WriteLine();
+            }
         }
 
         public int GetMoney()
@@ -37,6 +48,7 @@ namespace Bank
         public int Deposit()
         {
             _money = _money - 2000;
+            _isHave = true;
             Console.WriteLine();
             Console.WriteLine($"Денег осталось {_money}");
             Console.WriteLine();
@@ -82,10 +94,18 @@ namespace Bank
         }
         public string SetName()
         {
-            Console.WriteLine("Введите ваше имя");
-            string name = Console.ReadLine();
-            _name = name;
-            return _name;
+            if (_isHave == true)
+            {
+                Console.WriteLine("У вас уже есть счёт в банке");
+                return _name;
+            }
+            else
+            {
+                Console.WriteLine("Введите ваше имя");
+                string name = Console.ReadLine();
+                _name = name;
+                return _name;
+            }
         }
         public string GetName()
         {
@@ -97,6 +117,10 @@ namespace Bank
             Console.WriteLine();
             Console.WriteLine($"Деньги со счёта вернулись, количество ваших денег - {_money}");
             return _money;
+        }
+        public bool IsHave()
+        {
+            return _isHave;
         }
     }
 }

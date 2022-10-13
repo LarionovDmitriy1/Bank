@@ -33,11 +33,11 @@ void Menu()
     }
     else if (menu == 3)
     {
-        bank.ScoreInfo();
+        bank.ScoreInfo(hum);
     }
     else if (menu == 4)
     {
-        bank.CloseScore(hum, bank);
+        hum.DeleteNumber(bank, hum);
     }
     else if (menu == 5)
     {
@@ -45,7 +45,7 @@ void Menu()
     }
     else if (menu == 6)
     {
-        bank.AmmountPerYear();
+        bank.AmmountPerYear(hum);
     }
     else
     {

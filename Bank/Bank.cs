@@ -13,7 +13,6 @@ namespace Bank
         private int _accountMoney;
         private int _min;
         private int _interestOnDeposit;
-        private bool _scoreCheck = false;
         public Bank1()
         {
             _interestOnDeposit = 5;
@@ -21,12 +20,11 @@ namespace Bank
         }
         public bool OpenScore(Human hum)
         {
-            if (_scoreCheck == true)
+            if (hum.IsHave() == true)
             {
                 Console.WriteLine("У вас уже есть счёт");
-                return _scoreCheck;
             }
-            else if (_scoreCheck == false)
+            else if (hum.IsHave() == false)
             {
                 if (hum.AmountOfMoney() < 2000)
                 {
@@ -47,15 +45,13 @@ namespace Bank
                         hum.Deposit();
                         GetNumber(hum);
                         _accountMoney = _accountMoney + 2000;
-                        _scoreCheck = true;
-                        return _scoreCheck;
                     }
 
 
                     else if (confirmed1 == 2)
                     {
-                        _scoreCheck = false;
-                        return _scoreCheck;
+
+                        return hum.IsHave();
                     }
                 }
             }
@@ -64,14 +60,13 @@ namespace Bank
 
         public void TopUpAccount(Human hum)
         {
-            if (_scoreCheck == true)
+            if (hum.IsHave() == true)
             {
                 Console.WriteLine();
                 Console.WriteLine("Введите количество денег, которые вы хотите положить на этот счёт");
                 Console.WriteLine();
                 _accountMoney = _accountMoney + hum.TopUpAccount();
                 Console.WriteLine($"На вашем счету - {_accountMoney}");
-                Console.WriteLine($"Денег на руках - {hum.GetMoney()}");
                 Console.WriteLine();
             }
             else
@@ -82,11 +77,12 @@ namespace Bank
             }
         }
 
-        public void ScoreInfo()
+        public void ScoreInfo(Human hum)
         {
-            if (_scoreCheck == true)
+            if (hum.IsHave() == true)
             {
                 Console.WriteLine();
+                Console.WriteLine($"Имя владельца счёта - {hum.GetName()}");
                 Console.WriteLine($"Номер вашего счёта - {SetNumberScore()}");
                 Console.WriteLine($"Денег на счету - {_accountMoney}");
                 Console.WriteLine($"Процент по вкладу - 5%");
@@ -102,12 +98,10 @@ namespace Bank
 
         public void CloseScore(Human hum, Bank1 bank)
         {
-            if (_scoreCheck == true)
+            if (hum.IsHave() == false)
             {
                 if (_accountMoney == 0)
                 {
-                    _scoreCheck = false;
-                    _accountMoney = 0;
                     Console.WriteLine();
                     Console.WriteLine("Счёт закрыт");
                     Console.WriteLine();
@@ -115,6 +109,7 @@ namespace Bank
                 else
                 {
                     hum.TakeMoney(bank);
+                    _accountMoney = 0;
                 }
             }
             else
@@ -127,7 +122,7 @@ namespace Bank
 
         public void WithdrawMoney(Human hum, Bank1 bank)
         {
-            if (_scoreCheck == true)
+            if (hum.IsHave() == true)
             {
                 Console.WriteLine();
                 Console.WriteLine("Введите количество денег, которые вы хотите снять с этого счёта");
@@ -135,7 +130,6 @@ namespace Bank
 
                 _accountMoney = _accountMoney - hum.WitchDrawMoney(bank);
                 Console.WriteLine($"На вашем счету - {_accountMoney}");
-                Console.WriteLine($"Денег на руках - {hum.GetMoney()}");
             }
             else
             {
@@ -145,9 +139,9 @@ namespace Bank
             }
         }
 
-        public void AmmountPerYear()
+        public void AmmountPerYear(Human hum)
         {
-            if (_scoreCheck == true)
+            if (hum.IsHave() == true)
             {
                 int month = _accountMoney * _interestOnDeposit / 100;
                 int year = _accountMoney + month * 12;
