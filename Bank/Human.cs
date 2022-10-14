@@ -13,6 +13,7 @@ namespace Bank
         private string _numberScore;
         private int _money;
         private bool _isHave = false;
+        int a = '-';
         public void GetNumber()
         {
             Console.WriteLine($"Ваш номер счёта - {_numberScore}");
@@ -59,7 +60,7 @@ namespace Bank
         {
             string upAccount = Console.ReadLine();
             int upAccount1 = int.Parse(upAccount);
-            if (_money >= upAccount1)
+            if (_money >= upAccount1 & upAccount1! > 0)
             {
                 _money = _money - upAccount1;
                 Console.WriteLine("Вы пополнили счёт");
@@ -67,7 +68,9 @@ namespace Bank
             }
             else
             {
-                Console.WriteLine($"У вас нет столько денег");
+                Console.WriteLine();
+                Console.WriteLine($"Вы ввели некоректную сумму или у вас нет столько денег");
+                Console.WriteLine();
             }
             return 0;
         }
@@ -82,10 +85,16 @@ namespace Bank
             }
             else if (bank.GetAccountMoney() >= b)
             {
-                if (bank.GetAccountMoney() != 0)
+                if (bank.GetAccountMoney() != 0 & b! > 0)
                 {
                     _money = _money + b;
                     return b;
+                }
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"Введите коректную сумму");
+                    Console.WriteLine();
                 }
 
             }
